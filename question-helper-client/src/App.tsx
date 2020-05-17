@@ -1,9 +1,9 @@
+import { lazy, Suspense } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
-import { Header } from './common/components/Header/Header'
+import { HeaderWithRouter as Header } from './common/components'
 import {
-  CreateQuestionPage,
   HomePage,
   LoginPage,
   NotFoundPage,
@@ -11,6 +11,10 @@ import {
   SearchPage,
 } from './pages'
 import { fontFamily, fontSize, gray2 } from './common/styles/Styles'
+
+const CreateQuestionPage = lazy(() =>
+  import('./pages/CreateQuestion/CreateQuestionPage'),
+)
 
 const App: React.FC = () => {
   return (
@@ -26,7 +30,23 @@ const App: React.FC = () => {
         <Switch>
           <Redirect from="/home" to="/" />
           <Route exact path="/" component={HomePage} />
-          <Route path="/create-question" component={CreateQuestionPage} />
+          <Route path="/create-question">
+            <Suspense
+              fallback={
+                <div
+                  css={css`
+                    margin-top: 100px;
+                    text-align: center;
+                  `}
+                >
+                  {' '}
+                  Loading...
+                </div>
+              }
+            >
+              <CreateQuestionPage />
+            </Suspense>
+          </Route>
           <Route path="/login" component={LoginPage} />
           <Route path="/questions/:questionId" component={QuestionPage} />
           <Route path="/search" component={SearchPage} />
