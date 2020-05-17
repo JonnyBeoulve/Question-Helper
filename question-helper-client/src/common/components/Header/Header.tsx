@@ -1,6 +1,6 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react'
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css, jsx } from '@emotion/core'
 import {
   fontFamily,
   fontSize,
@@ -8,12 +8,12 @@ import {
   gray2,
   gray5,
   UserIcon,
-} from '../../styles';
+} from '../../styles'
 
 export const Header = () => {
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value);
-  };
+    console.log(e.currentTarget.value)
+  }
 
   return (
     <div
@@ -84,5 +84,5 @@ export const Header = () => {
         <span>Log In</span>
       </a>
     </div>
-  );
-};
+  )
+}

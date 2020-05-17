@@ -1,14 +1,14 @@
-import { FC } from 'react';
+import { FC } from 'react'
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { QuestionData } from '../../../fixtures/questions';
-import { gray5, accent2 } from '../../styles';
-import { Question } from '../Question/Question';
+import { css, jsx } from '@emotion/core'
+import { QuestionData } from '../../../fixtures/questions'
+import { gray5, accent2 } from '../../styles'
+import { Question } from '../Question/Question'
 
 type Props = {
-  data: QuestionData[];
-  renderItem?: (item: QuestionData) => JSX.Element;
-};
+  data: QuestionData[]
+  renderItem?: (item: QuestionData) => JSX.Element
+}
 
 export const QuestionList: FC<Props> = ({ data, renderItem }) => {
   return (
@@ -38,5 +38,5 @@ export const QuestionList: FC<Props> = ({ data, renderItem }) => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}

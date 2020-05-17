@@ -1,2 +1,2 @@
-export * from './Icons';
-export * from './Styles';
+export * from './Icons'
+export * from './Styles'

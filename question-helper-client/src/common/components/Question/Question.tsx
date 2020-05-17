@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import { FC } from 'react'
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { QuestionData } from '../../../fixtures/questions';
-import { gray2, gray3 } from '../../styles/Styles';
+import { css, jsx } from '@emotion/core'
+import { QuestionData } from '../../../fixtures/questions'
+import { gray2, gray3 } from '../../styles/Styles'
 
 type Props = {
-  data: QuestionData;
-  showContent?: boolean;
-};
+  data: QuestionData
+  showContent?: boolean
+}
 
 export const Question: FC<Props> = ({ data, showContent = true }) => (
   <div
@@ -47,4 +47,4 @@ export const Question: FC<Props> = ({ data, showContent = true }) => (
         ${data.created.toLocaleDateString()} ${data.created.toLocaleTimeString()}`}
     </div>
   </div>
-);
+)

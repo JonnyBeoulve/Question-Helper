@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { PrimaryButton } from '../../common/styles/Styles';
-import { Page, PageTitle, QuestionList } from '../../common/components';
-import { getUnansweredQuestions } from '../../utils/questionUtils';
-import { QuestionData } from '../../fixtures/questions';
+import { css, jsx } from '@emotion/core'
+import { PrimaryButton } from '../../common/styles/Styles'
+import { Page, PageTitle, QuestionList } from '../../common/components'
+import { getUnansweredQuestions } from '../../utils/questionUtils'
+import { QuestionData } from '../../fixtures/questions'
 
 export const Home = () => {
-  const [questions, setQuestions] = useState<QuestionData[] | null>(null);
-  const [questionsLoading, setQuestionsLoading] = useState(true);
+  const [questions, setQuestions] = useState<QuestionData[] | null>(null)
+  const [questionsLoading, setQuestionsLoading] = useState(true)
 
   useEffect(() => {
     const doGetUnansweredQuestions = async () => {
-      const unansweredQuestions = await getUnansweredQuestions();
-      setQuestions(unansweredQuestions);
-      setQuestionsLoading(false);
-    };
-    doGetUnansweredQuestions();
-  }, []);
+      const unansweredQuestions = await getUnansweredQuestions()
+      setQuestions(unansweredQuestions)
+      setQuestionsLoading(false)
+    }
+    doGetUnansweredQuestions()
+  }, [])
 
   const handleAskQuestionClick = () => {
-    console.log('@@TODO: Transition to the AskPage');
-  };
+    console.log('@@TODO: Transition to the AskPage')
+  }
 
   return (
     <Page>
@@ -50,5 +50,5 @@ export const Home = () => {
         <QuestionList data={questions || []} />
       )}
     </Page>
-  );
-};
+  )
+}

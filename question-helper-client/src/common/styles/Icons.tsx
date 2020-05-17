@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import user from '../../static/svg/user.svg';
+import { css, jsx } from '@emotion/core'
+import user from '../../static/svg/user.svg'
 
 export const UserIcon = () => (
   <img
@@ -11,4 +11,4 @@ export const UserIcon = () => (
       opacity: 0.6;
     `}
   />
-);
+)
