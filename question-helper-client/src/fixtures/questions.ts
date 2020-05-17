@@ -1,19 +1,9 @@
-export interface QuestionData {
-  questionId: number
-  title: string
-  content: string
-  userName: string
-  created: Date
-  answers: AnswerData[]
-}
+import { QuestionData } from '../types/questionAnswer'
 
-export interface AnswerData {
-  answerId: number
-  content: string
-  userName: string
-  created: Date
-}
-
+/**
+ * @description
+ * This is mock data to be used until the back end is built out and a database is implemented.
+ */
 export const questions: QuestionData[] = [
   {
     questionId: 1,
