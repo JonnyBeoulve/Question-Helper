@@ -1,27 +1,24 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { RouteComponentProps } from 'react-router-dom'
 import { PrimaryButton } from '../../common/styles/Styles'
 import { Page, PageTitle, QuestionList } from '../../common/components'
-import { getUnansweredQuestions } from '../../utils/questionUtils'
+import { getUnansweredQuestionsData } from '../../utils/questionUtils'
 import { QuestionData } from '../../fixtures/questions'
 
-export const Home = () => {
+export const HomePage: FC<RouteComponentProps> = ({ history }) => {
   const [questions, setQuestions] = useState<QuestionData[] | null>(null)
   const [questionsLoading, setQuestionsLoading] = useState(true)
 
   useEffect(() => {
-    const doGetUnansweredQuestions = async () => {
-      const unansweredQuestions = await getUnansweredQuestions()
+    const getUnansweredQuestions = async () => {
+      const unansweredQuestions = await getUnansweredQuestionsData()
       setQuestions(unansweredQuestions)
       setQuestionsLoading(false)
     }
-    doGetUnansweredQuestions()
+    getUnansweredQuestions()
   }, [])
-
-  const handleAskQuestionClick = () => {
-    console.log('@@TODO: Transition to the AskPage')
-  }
 
   return (
     <Page>
@@ -33,8 +30,12 @@ export const Home = () => {
         `}
       >
         <PageTitle>Unanswered Questions</PageTitle>
-        <PrimaryButton onClick={handleAskQuestionClick}>
-          Ask Question
+        <PrimaryButton
+          onClick={() => {
+            history.push('/create-question')
+          }}
+        >
+          Create Question
         </PrimaryButton>
       </div>
       {questionsLoading ? (
