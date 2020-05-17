@@ -1,8 +1,14 @@
 import { ChangeEvent } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { UserIcon } from '../../styles/Icons';
-import { fontFamily, fontSize, gray1, gray2, gray5 } from '../../styles/Styles';
+import {
+  fontFamily,
+  fontSize,
+  gray1,
+  gray2,
+  gray5,
+  UserIcon,
+} from '../../styles';
 
 export const Header = () => {
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -4,7 +4,4 @@ A traditional question answer web application built for the purposes of demonstr
 
 ## Programming
 
-React
-TypeScript
-C#
-.NET Core
+React, TypeScript, C#, .NET Core, and more.

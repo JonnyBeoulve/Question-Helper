@@ -1,14 +1,14 @@
 import { FC } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { gray5, accent2 } from '../../styles/Styles';
 import { QuestionData } from '../../../fixtures/questions';
+import { gray5, accent2 } from '../../styles';
 import { Question } from '../Question/Question';
 
-interface Props {
+type Props = {
   data: QuestionData[];
   renderItem?: (item: QuestionData) => JSX.Element;
-}
+};
 
 export const QuestionList: FC<Props> = ({ data, renderItem }) => {
   return (

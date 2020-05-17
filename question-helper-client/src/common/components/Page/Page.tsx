@@ -3,9 +3,10 @@ import { FC } from 'react';
 import { css, jsx } from '@emotion/core';
 import { PageTitle } from './PageTitle';
 
-interface Props {
+type Props = {
   title?: string;
-}
+};
+
 export const Page: FC<Props> = ({ title, children }) => (
   <div
     css={css`

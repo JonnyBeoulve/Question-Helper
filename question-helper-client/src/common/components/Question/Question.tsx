@@ -4,10 +4,10 @@ import { css, jsx } from '@emotion/core';
 import { QuestionData } from '../../../fixtures/questions';
 import { gray2, gray3 } from '../../styles/Styles';
 
-interface Props {
+type Props = {
   data: QuestionData;
   showContent?: boolean;
-}
+};
 
 export const Question: FC<Props> = ({ data, showContent = true }) => (
   <div

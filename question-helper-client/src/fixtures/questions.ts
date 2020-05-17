@@ -25,14 +25,14 @@ export const questions: QuestionData[] = [
     answers: [
       {
         answerId: 1,
-        content: 'To catch problems earlier speeding up your developments',
+        content: 'To catch problems earlier speeding up your developments.',
         userName: 'Jane',
         created: new Date(),
       },
       {
         answerId: 2,
         content:
-          'So, that you can use the JavaScript features of tomorrow, today',
+          'So, that you can use the JavaScript features of tomorrow, today.',
         userName: 'Fred',
         created: new Date(),
       },
@@ -42,7 +42,7 @@ export const questions: QuestionData[] = [
     questionId: 2,
     title: 'Which state management tool should I use?',
     content:
-      'There seem to be a fair few state management tools around for React - React, Unstated, ... Which one should I use?',
+      'There seem to be a fair few state management tools around for React - React, Unstated, etc. Which one should I use?',
     userName: 'Bob',
     created: new Date(),
     answers: [],
