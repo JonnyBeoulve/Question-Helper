@@ -1,7 +1,7 @@
 import { FC } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { QuestionData } from '../../../types/questionAnswer'
+import { QuestionData } from '../../../types'
 import { gray5, accent2 } from '../../styles'
 import { Question } from '../Question/Question'
 

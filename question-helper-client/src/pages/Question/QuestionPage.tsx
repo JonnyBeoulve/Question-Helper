@@ -3,9 +3,9 @@ import { FC, Fragment, useEffect, useState } from 'react'
 import { css, jsx } from '@emotion/core'
 import { RouteComponentProps } from 'react-router-dom'
 import { getQuestionData } from '../../utils/questionUtils'
-import { AnswerList, Page } from '../../common/components'
+import { AnswerList, Field, Form, Page } from '../../common/components'
 import { gray3, gray6 } from '../../common/styles'
-import { QuestionData } from '../../types/questionAnswer'
+import { QuestionData } from '../../types'
 
 interface RouteParams {
   questionId: string
@@ -70,6 +70,15 @@ export const QuestionPage: FC<RouteComponentProps<RouteParams>> = ({
              ${question.created.toLocaleTimeString()}`}
             </div>
             <AnswerList data={question.answers} />
+            <div
+              css={css`
+                margin-top: 20px;
+              `}
+            >
+              <Form submitCaption="Submit">
+                <Field name="content" label="Answer" type="TextArea" />
+              </Form>
+            </div>
           </Fragment>
         )}
       </div>

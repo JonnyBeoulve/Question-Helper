@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { PrimaryButton } from '../../common/styles/Styles'
 import { Page, PageTitle, QuestionList } from '../../common/components'
 import { getUnansweredQuestionsData } from '../../utils/questionUtils'
-import { QuestionData } from '../../types/questionAnswer'
+import { QuestionData } from '../../types'
 
 export const HomePage: FC<RouteComponentProps> = ({ history }) => {
   const [questions, setQuestions] = useState<QuestionData[] | null>(null)

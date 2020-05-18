@@ -2,7 +2,7 @@ import { FC } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { Link } from 'react-router-dom'
-import { QuestionData } from '../../../types/questionAnswer'
+import { QuestionData } from '../../../types'
 import { gray2, gray3 } from '../../styles/Styles'
 
 type Props = {

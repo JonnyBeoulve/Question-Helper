@@ -1,27 +1,55 @@
-import { createContext, FC, useState } from 'react'
+import { FC, useState } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { PrimaryButton, gray5, gray6 } from '../../styles/Styles'
-
-export interface Values {
-  [key: string]: any
-}
-
-interface FormContextProps {
-  values: Values
-  setValue?: (fieldName: string, value: any) => void
-}
+import {
+  Errors,
+  Touched,
+  Validation,
+  ValidationProp,
+  Values,
+} from '../../../types'
+import { FormContext } from './FormContext'
 
 type Props = {
   submitCaption?: string
+  validationRules?: ValidationProp
 }
 
-export const FormContext = createContext<FormContextProps>({
-  values: {},
-})
-
-export const Form: FC<Props> = ({ submitCaption, children }) => {
+export const Form: FC<Props> = ({
+  submitCaption,
+  validationRules,
+  children,
+}) => {
   const [values, setValues] = useState<Values>({})
+  const [errors, setErrors] = useState<Errors>({})
+  const [touched, setTouched] = useState<Touched>({})
+
+  const validate = (fieldName: string): string[] => {
+    if (!validationRules) {
+      return []
+    }
+
+    if (!validationRules[fieldName]) {
+      return []
+    }
+
+    const rules = Array.isArray(validationRules[fieldName])
+      ? (validationRules[fieldName] as Validation[])
+      : ([validationRules[fieldName]] as Validation[])
+
+    const fieldErrors: string[] = []
+    rules.forEach(rule => {
+      const error = rule.validator(values[fieldName], rule.arg)
+      if (error) {
+        fieldErrors.push(error)
+      }
+    })
+
+    const newErrors = { ...errors, [fieldName]: fieldErrors }
+    setErrors(newErrors)
+    return fieldErrors
+  }
 
   return (
     <FormContext.Provider
@@ -29,6 +57,12 @@ export const Form: FC<Props> = ({ submitCaption, children }) => {
         values,
         setValue: (fieldName: string, value: any) => {
           setValues({ ...values, [fieldName]: value })
+        },
+        errors,
+        validate,
+        touched,
+        setTouched: (fieldName: string) => {
+          setTouched({ ...touched, [fieldName]: true })
         },
       }}
     >

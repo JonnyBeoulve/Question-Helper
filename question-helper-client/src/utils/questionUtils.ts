@@ -1,4 +1,4 @@
-import { QuestionData } from '../types/questionAnswer'
+import { QuestionData } from '../types'
 import { questions } from '../fixtures/questions'
 
 const wait = (ms: number): Promise<void> => {

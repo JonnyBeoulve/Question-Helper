@@ -3,7 +3,7 @@ import { FC, useState, useEffect } from 'react'
 import { css, jsx } from '@emotion/core'
 import { RouteComponentProps } from 'react-router-dom'
 import { Page, QuestionList } from '../../common/components'
-import { QuestionData } from '../../types/questionAnswer'
+import { QuestionData } from '../../types'
 import { searchQuestions } from '../../utils/questionUtils'
 
 export const SearchPage: FC<RouteComponentProps> = ({ location }) => {
