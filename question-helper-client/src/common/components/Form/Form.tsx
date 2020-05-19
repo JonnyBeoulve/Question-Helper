@@ -1,7 +1,7 @@
-import { FC, useState } from 'react'
+import { FC, FormEvent, useState } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { PrimaryButton, gray5, gray6 } from '../../styles/Styles'
+import { PrimaryButton, gray5, gray6 } from '../../styles'
 import {
   Errors,
   Touched,
@@ -11,19 +11,33 @@ import {
 } from '../../../types'
 import { FormContext } from './FormContext'
 
-type Props = {
+interface SubmitResult {
+  success: boolean
+  errors?: Errors
+}
+
+interface Props {
   submitCaption?: string
   validationRules?: ValidationProp
+  successMessage?: string
+  failureMessage?: string
+  onSubmit: (values: Values) => Promise<SubmitResult>
 }
 
 export const Form: FC<Props> = ({
   submitCaption,
   validationRules,
+  successMessage = 'Success!',
+  failureMessage = 'Something went wrong',
+  onSubmit,
   children,
 }) => {
   const [values, setValues] = useState<Values>({})
   const [errors, setErrors] = useState<Errors>({})
   const [touched, setTouched] = useState<Touched>({})
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
 
   const validate = (fieldName: string): string[] => {
     if (!validationRules) {
@@ -51,6 +65,37 @@ export const Form: FC<Props> = ({
     return fieldErrors
   }
 
+  const validateForm = () => {
+    const newErrors: Errors = {}
+    let haveError: boolean = false
+    if (validationRules) {
+      Object.keys(validationRules).forEach(fieldName => {
+        newErrors[fieldName] = validate(fieldName)
+        if (newErrors[fieldName].length > 0) {
+          haveError = true
+        }
+      })
+    }
+    setErrors(newErrors)
+    return !haveError
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (validateForm()) {
+      setSubmitting(true)
+      setSubmitError(false)
+
+      const result = await onSubmit(values)
+
+      setErrors(result.errors || {})
+      setSubmitError(!result.success)
+      setSubmitting(false)
+      setSubmitted(true)
+    }
+  }
+
   return (
     <FormContext.Provider
       value={{
@@ -66,8 +111,9 @@ export const Form: FC<Props> = ({
         },
       }}
     >
-      <form noValidate={true}>
+      <form noValidate={true} onSubmit={handleSubmit}>
         <fieldset
+          disabled={submitting || (submitted && !submitError)}
           css={css`
             margin: 10px auto 0 auto;
             padding: 30px;
@@ -87,6 +133,24 @@ export const Form: FC<Props> = ({
             `}
           >
             <PrimaryButton type="submit">{submitCaption}</PrimaryButton>
+            {submitted && submitError && (
+              <p
+                css={css`
+                  color: red;
+                `}
+              >
+                {failureMessage}
+              </p>
+            )}
+            {submitted && !submitError && (
+              <p
+                css={css`
+                  color: green;
+                `}
+              >
+                {successMessage}
+              </p>
+            )}
           </div>
         </fieldset>
       </form>

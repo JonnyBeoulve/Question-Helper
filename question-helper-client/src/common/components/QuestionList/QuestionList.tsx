@@ -5,7 +5,7 @@ import { QuestionData } from '../../../types'
 import { gray5, accent2 } from '../../styles'
 import { Question } from '../Question/Question'
 
-type Props = {
+interface Props {
   data: QuestionData[]
   renderItem?: (item: QuestionData) => JSX.Element
 }

@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { RouteComponentProps } from 'react-router-dom'
-import { PrimaryButton } from '../../common/styles/Styles'
+import { PrimaryButton } from '../../common/styles'
 import { Page, PageTitle, QuestionList } from '../../common/components'
 import { getUnansweredQuestionsData } from '../../utils/questionUtils'
 import { QuestionData } from '../../types'

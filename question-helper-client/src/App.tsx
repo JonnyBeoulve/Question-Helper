@@ -10,7 +10,7 @@ import {
   QuestionPage,
   SearchPage,
 } from './pages'
-import { fontFamily, fontSize, gray2 } from './common/styles/Styles'
+import { fontFamily, fontSize, gray2 } from './common/styles/style'
 
 const CreateQuestionPage = lazy(() =>
   import('./pages/CreateQuestion/CreateQuestionPage'),

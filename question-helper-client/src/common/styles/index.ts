@@ -1,2 +1,3 @@
+export * from './components'
 export * from './Icons'
-export * from './Styles'
+export * from './style'

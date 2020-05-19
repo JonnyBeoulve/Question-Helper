@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { css, jsx } from '@emotion/core'
 import { PageTitle } from './PageTitle'
 
-type Props = {
+interface Props {
   title?: string
 }
 

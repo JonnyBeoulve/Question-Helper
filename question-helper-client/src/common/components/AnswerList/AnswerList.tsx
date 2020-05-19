@@ -5,7 +5,7 @@ import { AnswerData } from '../../../types'
 import { gray5 } from '../../styles'
 import { Answer } from '../Answer/Answer'
 
-type Props = {
+interface Props {
   data: AnswerData[]
 }
 

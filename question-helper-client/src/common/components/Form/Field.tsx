@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, useContext } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { fontFamily, fontSize, gray5, gray2, gray6 } from '../../styles/Styles'
+import { fontFamily, fontSize, gray5, gray2, gray6 } from '../../styles/style'
 import { FormContext } from './FormContext'
 
-type Props = {
+interface Props {
   name: string
   label?: string
   type?: 'Text' | 'TextArea' | 'Password'

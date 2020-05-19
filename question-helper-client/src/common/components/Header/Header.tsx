@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, FormEvent, useState } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
@@ -19,6 +19,11 @@ export const Header: FC<RouteComponentProps> = ({ history, location }) => {
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value)
+  }
+
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    history.push(`/search?criteria=${search}`)
   }
 
   return (
@@ -48,7 +53,7 @@ export const Header: FC<RouteComponentProps> = ({ history, location }) => {
       >
         Question Helper
       </Link>
-      <form>
+      <form onSubmit={handleSearchSubmit}>
         <input
           type="text"
           placeholder="Search..."
