@@ -1,5 +1,4 @@
 export * from './CreateQuestion/CreateQuestionPage'
-export * from './Home/HomePage'
 export * from './Login/LoginPage'
 export * from './NotFound/NotFoundPage'
 export * from './Question/QuestionPage'

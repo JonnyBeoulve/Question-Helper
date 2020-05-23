@@ -1,19 +1,10 @@
-import { AnswerData, QuestionData } from '../types'
+import {
+  AnswerData,
+  PostAnswerData,
+  PostQuestionData,
+  QuestionData,
+} from '../types'
 import { questions } from '../fixtures/questions'
-
-export interface PostQuestionData {
-  title: string
-  content: string
-  userName: string
-  created: Date
-}
-
-export interface PostAnswerData {
-  questionId: number
-  content: string
-  userName: string
-  created: Date
-}
 
 const wait = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms))

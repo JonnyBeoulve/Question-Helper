@@ -1,28 +1,16 @@
-import { Action, ActionCreator, Dispatch } from 'redux'
+import { ActionCreator, Dispatch } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import {
   getUnansweredQuestionsData,
   postQuestion,
-  PostQuestionData,
 } from '../utils/questionUtils'
-import { QuestionData } from '../types'
-
-export type QuestionsActions =
-  | GettingUnansweredQuestionsAction
-  | GotUnansweredQuestionsAction
-  | PostedQuestionAction
-
-interface GettingUnansweredQuestionsAction
-  extends Action<'GettingUnansweredQuestions'> {}
-
-export interface GotUnansweredQuestionsAction
-  extends Action<'GotUnansweredQuestions'> {
-  questions: QuestionData[]
-}
-
-export interface PostedQuestionAction extends Action<'PostedQuestion'> {
-  result: QuestionData | undefined
-}
+import {
+  GettingUnansweredQuestionsAction,
+  GotUnansweredQuestionsAction,
+  PostQuestionData,
+  PostedQuestionAction,
+  QuestionData,
+} from '../types'
 
 export const getUnansweredQuestionsActionCreator: ActionCreator<ThunkAction<
   Promise<void>,

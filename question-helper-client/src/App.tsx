@@ -4,13 +4,8 @@ import { css, jsx } from '@emotion/core'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { HeaderWithRouter as Header } from './common/components'
-import {
-  HomePage,
-  LoginPage,
-  NotFoundPage,
-  QuestionPage,
-  SearchPage,
-} from './pages'
+import HomePage from './pages/Home/HomePage'
+import { LoginPage, NotFoundPage, QuestionPage, SearchPage } from './pages'
 import { fontFamily, fontSize, gray2 } from './common/styles/style'
 import { configureStore } from './store'
 

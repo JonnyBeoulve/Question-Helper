@@ -1,18 +1,49 @@
-import React from 'react'
+import React, { FC, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+import { AnyAction } from 'redux'
 import { Field, Form, minLength, Page, required } from '../../common/components'
-import { postQuestion } from '../../utils/questionUtils'
-import { Values } from '../../types'
+import {
+  postQuestionActionCreator,
+  clearPostedQuestionActionCreator,
+} from '../../store'
+import {
+  AppState,
+  SubmitResult,
+  PostQuestionData,
+  QuestionData,
+  Values,
+} from '../../types'
 
-export const CreateQuestionPage = () => {
-  const handleSubmit = async (values: Values) => {
-    const question = await postQuestion({
+interface Props {
+  postedQuestionResult?: QuestionData
+  postQuestion: (question: PostQuestionData) => Promise<void>
+  clearPostedQuestion: () => void
+}
+
+const CreateQuestionPage: FC<Props> = ({
+  postedQuestionResult,
+  postQuestion,
+  clearPostedQuestion,
+}) => {
+  useEffect(() => {
+    return function cleanUp() {
+      clearPostedQuestion()
+    }
+  }, [clearPostedQuestion])
+
+  const handleSubmit = (values: Values) => {
+    postQuestion({
       title: values.title,
       content: values.content,
       userName: 'Fred',
       created: new Date(),
     })
+  }
 
-    return { success: question ? true : false }
+  let submitResult: SubmitResult | undefined
+  if (postedQuestionResult) {
+    submitResult = { success: postedQuestionResult !== undefined }
   }
 
   return (
@@ -24,6 +55,7 @@ export const CreateQuestionPage = () => {
           content: [{ validator: required }, { validator: minLength, arg: 50 }],
         }}
         onSubmit={handleSubmit}
+        submitResult={submitResult}
         failureMessage="There was a problem with your question."
         successMessage="Your question was successfully submitted."
       >
@@ -34,4 +66,16 @@ export const CreateQuestionPage = () => {
   )
 }
 
-export default CreateQuestionPage
+const mapStateToProps = (store: AppState) => {
+  return {
+    postedQuestionResult: store.questions.postedResult,
+  }
+}
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    postQuestion: (question: PostQuestionData) =>
+      dispatch(postQuestionActionCreator(question)),
+    clearPostedQuestion: () => dispatch(clearPostedQuestionActionCreator()),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CreateQuestionPage)

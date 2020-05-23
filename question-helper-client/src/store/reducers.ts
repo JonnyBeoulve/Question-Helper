@@ -1,6 +1,6 @@
 import { Reducer, combineReducers } from 'redux'
-import { QuestionsActions } from './actions'
-import { AppState, initialQuestionState, QuestionsState } from './store'
+import { AppState, QuestionsActions, QuestionsState } from '../types'
+import { initialQuestionState } from './store'
 
 const neverReached = (never: never) => {}
 

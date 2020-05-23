@@ -4,6 +4,7 @@ import { css, jsx } from '@emotion/core'
 import { PrimaryButton, gray5, gray6 } from '../../styles'
 import {
   Errors,
+  SubmitResult,
   Touched,
   Validation,
   ValidationProp,
@@ -11,17 +12,13 @@ import {
 } from '../../../types'
 import { FormContext } from './FormContext'
 
-interface SubmitResult {
-  success: boolean
-  errors?: Errors
-}
-
 interface Props {
   submitCaption?: string
   validationRules?: ValidationProp
   successMessage?: string
   failureMessage?: string
-  onSubmit: (values: Values) => Promise<SubmitResult>
+  onSubmit: (values: Values) => Promise<SubmitResult> | void
+  submitResult?: SubmitResult
 }
 
 export const Form: FC<Props> = ({
@@ -30,6 +27,7 @@ export const Form: FC<Props> = ({
   successMessage = 'Success!',
   failureMessage = 'Something went wrong',
   onSubmit,
+  submitResult,
   children,
 }) => {
   const [values, setValues] = useState<Values>({})
@@ -89,12 +87,26 @@ export const Form: FC<Props> = ({
 
       const result = await onSubmit(values)
 
+      if (result === undefined) {
+        return
+      }
+
       setErrors(result.errors || {})
       setSubmitError(!result.success)
       setSubmitting(false)
       setSubmitted(true)
     }
   }
+
+  const disabled = submitResult
+    ? submitResult.success
+    : submitting || (submitted && !submitError)
+  const showError = submitResult
+    ? !submitResult.success
+    : submitted && submitError
+  const showSuccess = submitResult
+    ? submitResult.success
+    : submitted && !submitError
 
   return (
     <FormContext.Provider
@@ -113,7 +125,7 @@ export const Form: FC<Props> = ({
     >
       <form noValidate={true} onSubmit={handleSubmit}>
         <fieldset
-          disabled={submitting || (submitted && !submitError)}
+          disabled={disabled}
           css={css`
             margin: 10px auto 0 auto;
             padding: 30px;
@@ -133,7 +145,7 @@ export const Form: FC<Props> = ({
             `}
           >
             <PrimaryButton type="submit">{submitCaption}</PrimaryButton>
-            {submitted && submitError && (
+            {showError && (
               <p
                 css={css`
                   color: red;
@@ -142,7 +154,7 @@ export const Form: FC<Props> = ({
                 {failureMessage}
               </p>
             )}
-            {submitted && !submitError && (
+            {showSuccess && (
               <p
                 css={css`
                   color: green;

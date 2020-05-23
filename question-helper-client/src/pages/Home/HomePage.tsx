@@ -1,24 +1,32 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { connect } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+import { AnyAction } from 'redux'
 import { RouteComponentProps } from 'react-router-dom'
 import { PrimaryButton } from '../../common/styles'
 import { Page, PageTitle, QuestionList } from '../../common/components'
-import { getUnansweredQuestionsData } from '../../utils/questionUtils'
-import { QuestionData } from '../../types'
+import { AppState, QuestionData } from '../../types'
+import { getUnansweredQuestionsActionCreator } from '../../store'
 
-export const HomePage: FC<RouteComponentProps> = ({ history }) => {
-  const [questions, setQuestions] = useState<QuestionData[] | null>(null)
-  const [questionsLoading, setQuestionsLoading] = useState(true)
+interface Props extends RouteComponentProps {
+  questions: QuestionData[] | null
+  questionsLoading: boolean
+  getUnansweredQuestions: () => Promise<void>
+}
 
+const HomePage: FC<Props> = ({
+  questions,
+  questionsLoading,
+  getUnansweredQuestions,
+  history,
+}) => {
   useEffect(() => {
-    const getUnansweredQuestions = async () => {
-      const unansweredQuestions = await getUnansweredQuestionsData()
-      setQuestions(unansweredQuestions)
-      setQuestionsLoading(false)
+    if (questions === null) {
+      getUnansweredQuestions()
     }
-    getUnansweredQuestions()
-  }, [])
+  }, [questions, getUnansweredQuestions])
 
   return (
     <Page>
@@ -53,3 +61,19 @@ export const HomePage: FC<RouteComponentProps> = ({ history }) => {
     </Page>
   )
 }
+
+const mapStateToProps = (store: AppState) => {
+  return {
+    questions: store.questions.unanswered,
+    questionsLoading: store.questions.loading,
+  }
+}
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    getUnansweredQuestions: () =>
+      dispatch(getUnansweredQuestionsActionCreator()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
