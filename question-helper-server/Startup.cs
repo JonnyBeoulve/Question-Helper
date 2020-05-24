@@ -10,8 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using DbUp;
 
-namespace QandA
+namespace QuestionHelper
 {
     public class Startup
     {
@@ -22,13 +23,30 @@ namespace QandA
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString =
+    Configuration.GetConnectionString("DefaultConnection");
+
+            EnsureDatabase.For.SqlDatabase(connectionString);
+
+            var upgrader = DeployChanges.To
+              .SqlDatabase(connectionString, null)
+              .WithScriptsEmbeddedInAssembly(
+                System.Reflection.Assembly.GetExecutingAssembly()
+              )
+              .WithTransaction()
+              .LogToConsole()
+              .Build();
+
+            if (upgrader.IsUpgradeRequired())
+            {
+                upgrader.PerformUpgrade();
+            }
+
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -39,7 +57,7 @@ namespace QandA
             {
                 app.UseHttpsRedirection();
             }
-            
+
             app.UseRouting();
 
             app.UseAuthorization();

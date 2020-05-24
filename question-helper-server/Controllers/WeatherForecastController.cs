@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace QandA.Controllers
+namespace QuestionHelper.Controllers
 {
     [ApiController]
     [Route("[controller]")]

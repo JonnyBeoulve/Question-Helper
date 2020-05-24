@@ -1,6 +1,6 @@
 using System;
 
-namespace QandA
+namespace QuestionHelper
 {
     public class WeatherForecast
     {
