@@ -4,4 +4,12 @@ A traditional question answer web application built for the purposes of demonstr
 
 ## Programming
 
-React, TypeScript, Redux, Redux Thunk, Emotion, C#, .NET Core, Dapper, and more.
+- React
+- TypeScript
+- Redux
+- Redux Thunk
+- Emotion
+- C#
+- .NET Core
+- SQL
+- Dapper
