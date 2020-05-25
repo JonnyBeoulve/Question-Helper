@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace QuestionHelper.Data.Models
 {
     public class AnswerPostRequest
     {
-        public int QuestionId { get; set; }
+        [Required]
+        public int? QuestionId { get; set; }
+        [Required]
         public string Content { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public DateTime Created { get; set; }
     }
 }

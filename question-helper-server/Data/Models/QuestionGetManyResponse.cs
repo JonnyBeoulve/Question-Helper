@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuestionHelper.Data.Models {
-    public class QuestionGetManyResponse {
+namespace QuestionHelper.Data.Models
+{
+    public class QuestionGetManyResponse
+    {
         public int QuestionId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
