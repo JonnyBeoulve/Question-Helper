@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuestionHelper.Data.Models
-{
-    public class QuestionPostFullRequest
-    {
+namespace QuestionHelper.Data.Models {
+    public class QuestionPostFullRequest {
         public string Title { get; set; }
         public string Content { get; set; }
         public string UserId { get; set; }
