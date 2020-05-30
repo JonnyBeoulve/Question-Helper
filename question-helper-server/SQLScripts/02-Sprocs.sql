@@ -21,7 +21,7 @@ BEGIN
 	SET NOCOUNT ON
 
 	SELECT AnswerId, QuestionId, Content, Username, Created
-	FROM dbo.Answer 
+	FROM dbo.Answer
 	WHERE QuestionId = @QuestionId
 END
 GO
@@ -121,7 +121,7 @@ BEGIN
 	SET NOCOUNT ON
 
 	SELECT QuestionId, Title, Content, UserId, UserName, Created
-	FROM dbo.Question 
+	FROM dbo.Question
 END
 GO
 
@@ -133,14 +133,14 @@ AS
 BEGIN
 	SET NOCOUNT ON
 
-		SELECT QuestionId, Title, Content, UserId, UserName, Created
-		FROM dbo.Question 
+			SELECT QuestionId, Title, Content, UserId, UserName, Created
+		FROM dbo.Question
 		WHERE Title LIKE '%' + @Search + '%'
 
 	UNION
 
 		SELECT QuestionId, Title, Content, UserId, UserName, Created
-		FROM dbo.Question 
+		FROM dbo.Question
 		WHERE Content LIKE '%' + @Search + '%'
 END
 GO
@@ -155,14 +155,14 @@ AS
 BEGIN
 	SELECT QuestionId, Title, Content, UserId, UserName, Created
 	FROM
-		(	SELECT QuestionId, Title, Content, UserId, UserName, Created
-			FROM dbo.Question 
+		(							SELECT QuestionId, Title, Content, UserId, UserName, Created
+			FROM dbo.Question
 			WHERE Title LIKE '%' + @Search + '%'
 
 		UNION
 
 			SELECT QuestionId, Title, Content, UserId, UserName, Created
-			FROM dbo.Question 
+			FROM dbo.Question
 			WHERE Content LIKE '%' + @Search + '%') Sub
 	ORDER BY QuestionId
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
@@ -191,7 +191,7 @@ BEGIN
 	SET NOCOUNT ON
 
 	SELECT QuestionId, Title, Content, UserId, Username, Created
-	FROM dbo.Question 
+	FROM dbo.Question
 	WHERE QuestionId = @QuestionId
 END
 GO
