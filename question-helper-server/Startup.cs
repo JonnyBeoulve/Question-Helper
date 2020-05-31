@@ -43,10 +43,16 @@ namespace QuestionHelper {
             services.AddCors (options => options.AddPolicy ("CorsPolicy",
                 builder => builder.AllowAnyMethod ().AllowAnyHeader ().WithOrigins ("http://localhost:3000").AllowCredentials ()));
 
+            services.AddCors (options =>
+                options.AddPolicy ("CorsPolicy", builder =>
+                    builder.AllowAnyMethod ()
+                    .AllowAnyHeader ()
+                    .WithOrigins ("http://localhost:3000")
+                    .AllowCredentials ()));
+
             services.AddSignalR ();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
             app.UseCors ("CorsPolicy");
 

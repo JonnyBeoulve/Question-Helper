@@ -3,6 +3,7 @@ import {
   PostAnswerData,
   PostQuestionData,
   QuestionData,
+  QuestionDataFromServer,
 } from '../types'
 import { questions } from '../fixtures/questions'
 
@@ -94,3 +95,21 @@ export const postAnswer = async (
 
   return answerInQuestion
 }
+
+/**
+ * @description
+ * Map question received from server and format for front end consumption.
+ *
+ * @param
+ * question: QuestionDataFromServer
+ */
+export const mapQuestionFromServer = (
+  question: QuestionDataFromServer,
+): QuestionData => ({
+  ...question,
+  created: new Date(question.created.substr(0, 19)),
+  answers: question.answers.map(answer => ({
+    ...answer,
+    created: new Date(answer.created.substr(0, 19)),
+  })),
+})

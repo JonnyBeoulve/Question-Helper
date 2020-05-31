@@ -17,8 +17,8 @@ import {
   required,
 } from '../../common/components'
 import { gray3, gray6 } from '../../common/styles'
-import { postAnswer } from '../../utils/questionUtils'
-import { QuestionData, Values } from '../../types'
+import { mapQuestionFromServer, postAnswer } from '../../utils/questionUtils'
+import { QuestionData, QuestionDataFromServer, Values } from '../../types'
 
 interface RouteParams {
   questionId: string
@@ -35,8 +35,8 @@ export const QuestionPage: FC<RouteComponentProps<RouteParams>> = ({
       .withAutomaticReconnect()
       .build()
 
-    connection.on('ReceiveQuestion', (question: QuestionData) => {
-      setQuestion(question)
+    connection.on('ReceiveQuestion', (question: QuestionDataFromServer) => {
+      setQuestion(mapQuestionFromServer(question))
     })
 
     try {

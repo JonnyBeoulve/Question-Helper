@@ -27,3 +27,18 @@ export interface PostAnswerData {
   userName: string
   created: Date
 }
+
+export interface QuestionDataFromServer {
+  questionId: number
+  title: string
+  content: string
+  userName: string
+  created: string
+  answers: AnswerDataFromServer[]
+}
+export interface AnswerDataFromServer {
+  answerId: number
+  content: string
+  userName: string
+  created: string
+}
