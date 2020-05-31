@@ -2,6 +2,11 @@ import { FC, Fragment, useEffect, useState } from 'react'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { RouteComponentProps } from 'react-router-dom'
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  HubConnectionState,
+} from '@aspnet/signalr'
 import { getQuestionData } from '../../utils/questionUtils'
 import {
   AnswerList,
@@ -24,15 +29,72 @@ export const QuestionPage: FC<RouteComponentProps<RouteParams>> = ({
 }) => {
   const [question, setQuestion] = useState<QuestionData | null>(null)
 
+  const establishSignalRConnection = async (questionId: number) => {
+    const connection = new HubConnectionBuilder()
+      .withUrl('http://localhost:17525/questionshub')
+      .withAutomaticReconnect()
+      .build()
+
+    connection.on('ReceiveQuestion', (question: QuestionData) => {
+      setQuestion(question)
+    })
+
+    try {
+      await connection.start()
+    } catch (err) {
+      console.log(err)
+    }
+
+    if (connection.state === HubConnectionState.Connected) {
+      connection.invoke('SubscribeQuestion', questionId).catch((err: Error) => {
+        return console.error(err.toString())
+      })
+    }
+
+    return connection
+  }
+
+  const terminateSignalRConnection = async (
+    questionId: number,
+    connection: HubConnection,
+  ) => {
+    if (connection.state === HubConnectionState.Connected) {
+      try {
+        await connection.invoke('UnsubscribeQuestion', questionId)
+      } catch (err) {
+        return console.error(err.toString())
+      }
+      connection.off('Message')
+      connection.off('ReceiveQuestion')
+      connection.stop()
+    } else {
+      connection.off('Message')
+      connection.off('ReceiveQuestion')
+      connection.stop()
+    }
+  }
+
   useEffect(() => {
     const getQuestion = async (questionId: number) => {
       const question = await getQuestionData(questionId)
       setQuestion(question)
     }
 
+    let connection: HubConnection
+
     if (match.params.questionId) {
       const questionId = Number(match.params.questionId)
       getQuestion(questionId)
+      establishSignalRConnection(questionId).then(x => {
+        connection = x
+      })
+    }
+
+    return function terminate() {
+      if (match.params.questionId) {
+        const questionId = Number(match.params.questionId)
+        terminateSignalRConnection(questionId, connection)
+      }
     }
   }, [match.params.questionId])
 
