@@ -14,61 +14,67 @@ using Microsoft.Extensions.Logging;
 using QuestionHelper.Data;
 using QuestionHelper.Hubs;
 
-namespace QuestionHelper {
-    public class Startup {
-        public Startup (IConfiguration configuration) {
+namespace QuestionHelper
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices (IServiceCollection services) {
-            var connectionString = Configuration.GetConnectionString ("DefaultConnection");
-            EnsureDatabase.For.SqlDatabase (connectionString);
+        public void ConfigureServices(IServiceCollection services)
+        {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            EnsureDatabase.For.SqlDatabase(connectionString);
             var upgrader = DeployChanges.To
-                .SqlDatabase (connectionString, null)
-                .WithScriptsEmbeddedInAssembly (System.Reflection.Assembly.GetExecutingAssembly ())
-                .WithTransaction ()
-                .LogToConsole ()
-                .Build ();
+                .SqlDatabase(connectionString, null)
+                .WithScriptsEmbeddedInAssembly(System.Reflection.Assembly.GetExecutingAssembly())
+                .WithTransaction()
+                .LogToConsole()
+                .Build();
 
-            if (upgrader.IsUpgradeRequired ()) {
-                upgrader.PerformUpgrade ();
+            if (upgrader.IsUpgradeRequired())
+            {
+                upgrader.PerformUpgrade();
             }
 
-            services.AddControllers ();
+            services.AddControllers();
 
-            services.AddScoped<IDataRepository, DataRepository> ();
+            services.AddScoped<IDataRepository, DataRepository>();
 
-            services.AddCors (options => options.AddPolicy ("CorsPolicy",
-                builder => builder.AllowAnyMethod ().AllowAnyHeader ().WithOrigins ("http://localhost:3000").AllowCredentials ()));
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+               builder => builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000").AllowCredentials()));
 
-            services.AddCors (options =>
-                options.AddPolicy ("CorsPolicy", builder =>
-                    builder.AllowAnyMethod ()
-                    .AllowAnyHeader ()
-                    .WithOrigins ("http://localhost:3000")
-                    .AllowCredentials ()));
+            services.AddSignalR();
 
-            services.AddSignalR ();
+            services.AddMemoryCache();
+            services.AddSingleton<IQuestionCache, QuestionCache>();
         }
 
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
-            app.UseCors ("CorsPolicy");
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseCors("CorsPolicy");
 
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
-            } else {
-                app.UseHttpsRedirection ();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHttpsRedirection();
             }
 
-            app.UseRouting ();
+            app.UseRouting();
 
-            app.UseAuthorization ();
+            app.UseAuthorization();
 
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllers ();
-                endpoints.MapHub<QuestionsHub> ("/questionshub");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<QuestionsHub>("/questionshub");
             });
         }
     }

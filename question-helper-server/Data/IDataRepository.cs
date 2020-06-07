@@ -6,15 +6,18 @@ using QuestionHelper.Data.Models;
 
 namespace QuestionHelper.Data {
     public interface IDataRepository {
-        IEnumerable<QuestionGetManyResponse> GetQuestions ();
-        IEnumerable<QuestionGetManyResponse> GetQuestionsBySearch (string search);
-        IEnumerable<QuestionGetManyResponse> GetUnansweredQuestions ();
-        QuestionGetSingleResponse GetQuestion (int questionId);
-        bool QuestionExists (int questionId);
-        AnswerGetResponse GetAnswer (int answerId);
-        QuestionGetSingleResponse PostQuestion (QuestionPostFullRequest question);
-        QuestionGetSingleResponse PutQuestion (int questionId, QuestionPutRequest question);
-        void DeleteQuestion (int questionId);
-        AnswerGetResponse PostAnswer (AnswerPostFullRequest answer);
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestions ();
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsWithAnswers ();
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsBySearch (string search);
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsBySearchWithPaging (string search, int pageNumber, int pageSize);
+        Task<IEnumerable<QuestionGetManyResponse>> GetUnansweredQuestions ();
+        Task<IEnumerable<QuestionGetManyResponse>> GetUnansweredQuestionsAsync ();
+        Task<QuestionGetSingleResponse> GetQuestion (int questionId);
+        Task<bool> QuestionExists (int questionId);
+        Task<AnswerGetResponse> GetAnswer (int answerId);
+        Task<QuestionGetSingleResponse> PostQuestion (QuestionPostFullRequest question);
+        Task<QuestionGetSingleResponse> PutQuestion (int questionId, QuestionPutRequest question);
+        Task DeleteQuestion (int questionId);
+        Task<AnswerGetResponse> PostAnswer (AnswerPostFullRequest answer);
     }
 }
